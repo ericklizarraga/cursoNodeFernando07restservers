@@ -8,6 +8,7 @@ const {   usauriosGet,
           usuariosPost,
           usuariosPut,
           usuariosDelete } = require('../controllers/usuarios');
+  //----------------------------------        
 
 const router = Router();
 
