@@ -3,7 +3,6 @@ const bcryptjs = require('bcryptjs');
 const { generarJWT } = require('../helpers/generar-jwt');
 const Usuario = require('../models/usuario');
 const { googleVerify } = require("../helpers/goolge-verify");
-const { json } = require("express/lib/response");
 
 
 const login = async(req = request, res = response )=>{
@@ -88,8 +87,8 @@ const googleSignIn = async( req = request, res= response )=> {
 
         res.json({
             msg:'todo ok',
+            token,
             usuario,
-            token
         });
 
     } catch (error) {

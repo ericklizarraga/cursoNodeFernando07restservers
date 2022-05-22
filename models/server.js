@@ -1,20 +1,23 @@
 
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+
 const { dbConnection } = require('../database/config');
 
 class Server {
    
     constructor(){
-        this.app = express()
+        this.app = express();
         this.port =  process.env.PORT;
         
         this.pahts = {
             auth        :   '/api/auth',
-            buscar  :   '/api/buscar',
+            buscar      :   '/api/buscar',
             categorias  :   '/api/categorias',
-            productos    :   '/api/productos',
-            usuarios    :   '/api/usuarios'
+            productos   :   '/api/productos',
+            usuarios    :   '/api/usuarios',
+            uploads     :   '/api/uploads',
         }
 
         //conectar a base de datos
@@ -40,6 +43,12 @@ class Server {
 
         //directorio publico
         this.app.use( express.static('public') );
+
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath:true,
+        }));//para que aceprte archivos
     }
 
     routes(){
@@ -49,6 +58,7 @@ class Server {
         this.app.use( this.pahts.categorias, require('../routes/categorias') );
         this.app.use( this.pahts.productos, require('../routes/productos') );
         this.app.use( this.pahts.usuarios , require('../routes/usuarios') );
+        this.app.use( this.pahts.uploads , require('../routes/uploads') );
     }
 
     listen(){
